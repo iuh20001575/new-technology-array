@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        img {
+            width: 100px;
+            height: 100px;
+        }
+
+        table {
+            margin-top: 10px;
+        }
+
+        table,
+        tr,
+        th,
+        td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Manage contacts</h1>
+
+    <form action="/add" method="post" enctype="multipart/form-data">
+        <input type="text" name="id" placeholder="Enter Id...">
+        <input type="text" name="name" placeholder="Enter name...">
+        <input type="text" name="alias" placeholder="Enter alias...">
+        <input type="file" name="avatar" placeholder="Enter avatar...">
+        <button type="submit">Add</button>
+    </form>
+
+    <form action="/delete" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Alias</th>
+                    <th>Avatar</th>
+                    <th>
+                        <button type="submit">Delete</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% contacts.forEach(contact=> { %>
+                    <tr>
+                        <td>
+                            <%= contact.id %>
+                        </td>
+                        <td>
+                            <%= contact.name %>
+                        </td>
+                        <td>
+                            <%= contact.alias %>
+                        </td>
+                        <td>
+                            <img src="<%= contact.avatar %>" alt="">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="<%= contact.id%>" value="<%= contact.id%>">
+                        </td>
+                    </tr>
+                    <%}) %>
+            </tbody>
+        </table>
+    </form>
+</body>
+
+</html>
