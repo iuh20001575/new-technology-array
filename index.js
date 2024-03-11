@@ -1,13 +1,12 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const contacts = require('./data');
 
 const PORT = 3000;
 const app = express();
 
 const storage = multer.diskStorage({
-    filename: (req, file, cb) => {
+    filename: (_, file, cb) => {
         cb(
             null,
             `${new Date().getTime()}_${Math.random() * 1000}.${file.mimetype
@@ -21,12 +20,10 @@ const upload = multer({
     limits: {
         fieldSize: 2000000,
     },
-    fileFilter: (req, file, cb) => {
+    fileFilter: (_, file, cb) => {
         const fileTypes = /png|jpeg|jpg|gif$/;
 
         const { originalname, mimetype } = file;
-        console.log('🚀 ~ mimetype:', mimetype);
-        console.log('🚀 ~ originalname:', originalname);
 
         if (
             fileTypes.test(originalname.toLowerCase()) &&
@@ -49,8 +46,6 @@ app.get('/', (_, res) => {
 });
 
 app.post('/add', upload.single('avatar'), (req, res) => {
-    console.log(req.file);
-
     contacts.push({
         ...req.body,
         avatar: `/${req.file.filename}`,
